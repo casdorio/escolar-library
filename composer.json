@@ -1,0 +1,25 @@
+{
+    "name": "escolar/library",
+    "description": "Núcleo compartilhado da Biblioteca do GESTAO ESCOLAR: models, enums e contratos de leitura do acervo/circulação. Consumido por APP, PROFESSOR-portal e RESPONSAVEL-ALUNO — evita a duplicação de models que hoje existe na Cantina (ver _DOCUMENTACAO/biblioteca/PLANO-BIBLIOTECA.md §0.4).",
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^12.0",
+        "illuminate/database": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Escolar\\Library\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Escolar\\Library\\LibraryCoreServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
