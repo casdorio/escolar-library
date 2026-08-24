@@ -83,8 +83,34 @@ class LibrarySettings extends Model
         return array_merge($default, $configured ?? []);
     }
 
+    /**
+     * `firstOrCreate` só grava `school_id` na 1ª visita — o resto vem dos
+     * defaults da coluna no banco, que o Eloquent NÃO relê pro objeto em
+     * memória depois do INSERT (isso deixava `overdue_policy` e outros
+     * campos `null` na tela de Configurações até a escola salvar 1x).
+     * Passamos os defaults explícitos aqui pra o objeto retornado já vir
+     * correto, sem depender de um SELECT extra.
+     */
     public static function forSchool(int $schoolId): self
     {
-        return self::firstOrCreate(['school_id' => $schoolId]);
+        return self::firstOrCreate(
+            ['school_id' => $schoolId],
+            [
+                'overdue_policy' => OverduePolicy::Suspension->value,
+                'fines_go_to_finance' => false,
+                'digital_loan_days' => 14,
+                'audience_enforcement_mode' => AudienceMode::Advisory->value,
+                'tombo_prefix' => '',
+                'next_tombo_sequence' => 1,
+                'classification_system' => 'cdd',
+                'use_school_calendar' => false,
+                'reservations_enabled' => true,
+                'reservations_by_reader' => false,
+                'reservation_hold_hours' => 48,
+                'max_reservations_per_reader' => 2,
+                'block_renewal_when_queued' => true,
+                'auto_create_reader_on_enrollment' => true,
+            ],
+        );
     }
 }
