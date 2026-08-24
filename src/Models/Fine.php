@@ -18,7 +18,7 @@ class Fine extends Model
 
     protected $fillable = [
         'school_id', 'loan_id', 'reader_id', 'days_late', 'amount_cents', 'status',
-        'paid_at', 'waived_by', 'waive_reason', 'bank_charge_id',
+        'paid_at', 'waived_by', 'waive_reason', 'bank_charge_id', 'student_payment_schedule_id',
     ];
 
     protected $casts = [
