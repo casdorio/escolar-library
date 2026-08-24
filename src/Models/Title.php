@@ -100,11 +100,16 @@ class Title extends Model
             return $query;
         }
 
-        return $query->where(function (Builder $q) use ($term): void {
-            $q->where('title', 'ilike', "%{$term}%")
-                ->orWhere('isbn', 'ilike', "%{$term}%")
-                ->orWhereHas('authors', function (Builder $a) use ($term): void {
-                    $a->where('name', 'ilike', "%{$term}%");
+        // Postgres em produção usa ILIKE; o SQLite do harness de teste (rápido,
+        // por escola) não tem esse operador — LIKE nele já é case-insensitive
+        // pra ASCII, então o fallback é equivalente na prática dos testes.
+        $operator = $query->getConnection()->getDriverName() === 'sqlite' ? 'like' : 'ilike';
+
+        return $query->where(function (Builder $q) use ($term, $operator): void {
+            $q->where('title', $operator, "%{$term}%")
+                ->orWhere('isbn', $operator, "%{$term}%")
+                ->orWhereHas('authors', function (Builder $a) use ($term, $operator): void {
+                    $a->where('name', $operator, "%{$term}%");
                 });
         });
     }
