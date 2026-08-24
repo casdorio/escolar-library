@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Uma obra do acervo (título). Pode ter N exemplares físicos ({@see Copy}) e,
@@ -68,6 +69,16 @@ class Title extends Model
     public function audiences(): HasMany
     {
         return $this->hasMany(TitleAudience::class);
+    }
+
+    public function digitalItem(): HasOne
+    {
+        return $this->hasOne(DigitalItem::class);
+    }
+
+    public function embedding(): HasOne
+    {
+        return $this->hasOne(TitleEmbedding::class);
     }
 
     /**

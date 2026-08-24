@@ -14,6 +14,7 @@ class LibrarySettings extends Model
 
     protected $fillable = [
         'school_id', 'overdue_policy', 'fines_go_to_finance', 'digital_access_profiles',
+        'digital_loan_days', 'digital_concurrent_limit',
         'audience_enforcement_mode', 'tombo_prefix', 'next_tombo_sequence',
         'classification_system', 'auto_create_reader_on_enrollment',
         'profile_rules', 'use_school_calendar', 'reservations_enabled',
@@ -25,6 +26,8 @@ class LibrarySettings extends Model
         'overdue_policy' => OverduePolicy::class,
         'fines_go_to_finance' => 'boolean',
         'digital_access_profiles' => 'array',
+        'digital_loan_days' => 'integer',
+        'digital_concurrent_limit' => 'integer',
         'audience_enforcement_mode' => AudienceMode::class,
         'auto_create_reader_on_enrollment' => 'boolean',
         'profile_rules' => 'array',
